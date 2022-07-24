@@ -44,3 +44,60 @@ async function fetchJson(url, options) {
     }
   }
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+// 'createObservation()' PHASE ONE
+
+// added the following code from the lesson to flesh out 'createObservation' capability
+
+// const observations = [];
+
+// function nextId() {
+//   const uint32 = window.crypto.getRandomValues(new Uint32Array(1))[0];
+//   return uint32.toString(16);
+// }
+
+// export async function createObservation(observation, signal) {
+//   const now = new Date().toISOString();
+//   const newObservation = {
+//     ...observation,
+//     observation_id: nextId(),
+//     created_at: now,
+//     updated_at: now,
+//   };
+//   observations.push(newObservation);
+//   return newObservation;
+// }
+
+// export async function listObservations(signal) {
+//   return observations;
+// }
+
+// 'createObservation()' PHASE TWO
+
+// modified the above code after UI approval to call the actual API
+
+export async function createObservation(observation, signal) {
+  const url = `${API_BASE_URL}/observations`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: observation }),
+    signal,
+  };
+
+  return await fetchJson(url, options);
+}
+
+// after updating the backend, updated this function
+export async function listObservations(signal) {
+  const url = `${API_BASE_URL}/observations`;
+  const options = {
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+//////////////////////////////////////////////////////////////////////////
